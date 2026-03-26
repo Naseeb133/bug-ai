@@ -1,4 +1,4 @@
-import { Home, Bug, Clock, Crown, Settings } from 'lucide-react';
+import { Home, Clock, Crown, Settings } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -18,7 +18,7 @@ export default function BottomNav() {
   if (HIDDEN_ROUTES.some(r => location.pathname.startsWith(r))) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-t border-border">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card-strong border-t-0">
       <div className="flex items-center justify-around max-w-lg mx-auto h-16 px-2">
         {tabs.map(({ path, icon: Icon, label }) => {
           const active = location.pathname === path;

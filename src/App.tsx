@@ -26,7 +26,7 @@ const App = () => {
       <TooltipProvider>
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background text-foreground">
+          <div className="min-h-screen bg-background text-foreground app-gradient-bg page-ambient">
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/quiz" element={<QuizPage />} />

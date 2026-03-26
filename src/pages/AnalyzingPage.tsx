@@ -34,7 +34,6 @@ export default function AnalyzingPage() {
       setStepIdx((prev) => {
         if (prev >= STEPS.length - 1) {
           clearInterval(interval);
-          // Generate result
           const bugData = identifyBug(quizAnswers);
           const sighting: Sighting = {
             id: generateId(),
@@ -56,12 +55,18 @@ export default function AnalyzingPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 ambient-glow">
-      <DrBuzz size="lg" thinking />
+    <div className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 ambient-glow">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <DrBuzz size="lg" thinking />
+      </motion.div>
 
       <div className="mt-8 flex flex-col items-center gap-4">
         {/* Scanning animation */}
-        <div className="relative w-48 h-2 bg-muted rounded-full overflow-hidden">
+        <div className="relative w-48 h-2 rounded-full overflow-hidden glass-card">
           <motion.div
             className="absolute inset-y-0 left-0 bg-pro-gradient rounded-full"
             animate={{ width: `${((stepIdx + 1) / STEPS.length) * 100}%` }}

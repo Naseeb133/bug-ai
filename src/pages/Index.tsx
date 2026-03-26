@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { Camera, Upload, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,6 @@ export default function Home() {
   const recent = getSightings().slice(0, 3);
 
   const handleCapture = () => {
-    // Open camera via file input
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
@@ -42,40 +41,58 @@ export default function Home() {
   const usage = getDailyUsage();
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 pt-6 pb-20">
+    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 pt-6 pb-20">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center justify-between mb-8"
+      >
         <BugLogo size="sm" />
         {!isPro() && (
-          <span className="text-[11px] text-muted-foreground bg-surface px-2.5 py-1 rounded-full">
+          <span className="text-[11px] text-muted-foreground glass-card px-3 py-1.5 rounded-full">
             {usage}/{FREE_DAILY_LIMIT} free today
           </span>
         )}
-      </div>
+      </motion.div>
 
       {/* Hero */}
-      <div className="flex flex-col items-center text-center gap-4 mb-8 ambient-glow">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="flex flex-col items-center text-center gap-4 mb-8 ambient-glow"
+      >
         <DrBuzz size="lg" />
-        <h1 className="text-2xl font-bold">Identify Any Bug Instantly</h1>
-        <p className="text-sm text-muted-foreground max-w-xs">
+        <h1 className="text-3xl font-extrabold tracking-tight">Identify Any Bug Instantly</h1>
+        <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
           Point your camera at any insect and Dr. Buzz will identify it, check if it's safe, and share fun facts!
         </p>
-      </div>
+      </motion.div>
 
       {/* Camera CTA */}
       <motion.button
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
         whileTap={{ scale: 0.96 }}
+        whileHover={{ scale: 1.01 }}
         onClick={handleCapture}
-        className="w-full py-5 rounded-2xl bg-pro-gradient text-primary-foreground font-semibold text-base flex items-center justify-center gap-3 glow-lg mb-3"
+        className="w-full py-5 rounded-[1.25rem] btn-gradient text-primary-foreground font-semibold text-base flex items-center justify-center gap-3 mb-3"
       >
         <Camera size={22} />
         Point Camera at a Bug
       </motion.button>
 
       <motion.button
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.35 }}
         whileTap={{ scale: 0.97 }}
+        whileHover={{ scale: 1.01 }}
         onClick={handleUpload}
-        className="w-full py-3.5 rounded-2xl bg-surface glow-border text-foreground font-medium text-sm flex items-center justify-center gap-2 mb-8"
+        className="w-full py-3.5 rounded-[1.25rem] glass-card text-foreground font-medium text-sm flex items-center justify-center gap-2 mb-8 transition-all hover:border-primary/30"
       >
         <Upload size={16} />
         Upload from Gallery
@@ -91,12 +108,16 @@ export default function Home() {
 
       {/* Recent Sightings */}
       {recent.length > 0 && (
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+        >
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold">Recent Sightings</h2>
             <button
               onClick={() => navigate('/history')}
-              className="text-xs text-primary flex items-center gap-0.5"
+              className="text-xs text-primary flex items-center gap-0.5 hover:underline"
             >
               See all <ChevronRight size={12} />
             </button>
@@ -106,7 +127,7 @@ export default function Home() {
               <SightingCard key={s.id} sighting={s} onClick={() => navigate('/result', { state: { sighting: s } })} />
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -114,8 +135,8 @@ export default function Home() {
 
 function SightingCard({ sighting, onClick }: { sighting: Sighting; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="shrink-0 w-28 text-left">
-      <div className="w-28 h-28 rounded-2xl bg-surface overflow-hidden mb-1.5">
+    <button onClick={onClick} className="shrink-0 w-28 text-left group">
+      <div className="w-28 h-28 rounded-[1.25rem] glass-card overflow-hidden mb-1.5 group-hover:glow-sm transition-shadow">
         <img src={sighting.imageUrl} alt={sighting.species} className="w-full h-full object-cover" />
       </div>
       <p className="text-xs font-medium truncate">{sighting.species}</p>
