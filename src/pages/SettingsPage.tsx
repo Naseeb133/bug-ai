@@ -1,6 +1,6 @@
 import { Moon, Sun, Trash2, RotateCcw, Shield, ExternalLink } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { getTheme, setTheme as saveTheme, clearChats, isPro } from '@/lib/store';
+import { getTheme, setTheme as saveTheme, clearSightings, isPro } from '@/lib/store';
 import BugLogo from '@/components/BugLogo';
 import { toast } from 'sonner';
 
@@ -12,8 +12,8 @@ export default function SettingsPage() {
   }, [theme]);
 
   const handleClearHistory = () => {
-    clearChats();
-    toast.success('Chat history cleared');
+    clearSightings();
+    toast.success('Sighting history cleared');
   };
 
   const toggleTheme = () => {
@@ -26,11 +26,7 @@ export default function SettingsPage() {
       <p className="text-sm text-muted-foreground mb-6">Manage your Bug AI preferences</p>
 
       <div className="flex flex-col gap-2">
-        {/* Theme */}
-        <button
-          onClick={toggleTheme}
-          className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left"
-        >
+        <button onClick={toggleTheme} className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left">
           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
             {theme === 'dark' ? <Moon size={16} className="text-primary" /> : <Sun size={16} className="text-primary" />}
           </div>
@@ -43,21 +39,16 @@ export default function SettingsPage() {
           </div>
         </button>
 
-        {/* Clear history */}
-        <button
-          onClick={handleClearHistory}
-          className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left"
-        >
+        <button onClick={handleClearHistory} className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left">
           <div className="w-9 h-9 rounded-xl bg-destructive/10 flex items-center justify-center">
             <Trash2 size={16} className="text-destructive" />
           </div>
           <div>
-            <p className="text-sm font-medium">Clear Chat History</p>
-            <p className="text-xs text-muted-foreground">Delete all saved conversations</p>
+            <p className="text-sm font-medium">Clear Sighting History</p>
+            <p className="text-xs text-muted-foreground">Delete all saved identifications</p>
           </div>
         </button>
 
-        {/* Restore purchases */}
         <button className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left">
           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
             <RotateCcw size={16} className="text-primary" />
@@ -70,7 +61,6 @@ export default function SettingsPage() {
           </div>
         </button>
 
-        {/* Privacy */}
         <button className="bg-surface rounded-2xl p-4 flex items-center gap-3 w-full text-left">
           <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
             <Shield size={16} className="text-primary" />

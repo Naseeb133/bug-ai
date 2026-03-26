@@ -1,6 +1,6 @@
-import { Crown, Zap, ImagePlus, Infinity, Check } from 'lucide-react';
+import { Crown, Zap, Bug, Wifi, History, MessageCircle, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
-import BugLogo from '@/components/BugLogo';
+import DrBuzz from '@/components/DrBuzz';
 import { isPro, setPro } from '@/lib/store';
 import { useState } from 'react';
 
@@ -15,10 +15,11 @@ function getLocalPrice() {
 }
 
 const features = [
-  { icon: Infinity, text: 'Unlimited prompts' },
-  { icon: Zap, text: 'Faster AI responses' },
-  { icon: ImagePlus, text: 'Priority image generation' },
-  { icon: Crown, text: 'Early access to new features' },
+  { icon: Bug, text: 'Unlimited identifications' },
+  { icon: Wifi, text: 'Offline common insects' },
+  { icon: Zap, text: 'Sound identification' },
+  { icon: History, text: 'Full sighting history' },
+  { icon: MessageCircle, text: 'AI chat about bugs' },
 ];
 
 export default function UpgradePage() {
@@ -39,7 +40,7 @@ export default function UpgradePage() {
         </div>
         <h1 className="text-2xl font-bold">You're on Pro! 🎉</h1>
         <p className="text-sm text-muted-foreground text-center">
-          Enjoy unlimited prompts, faster responses, and priority image generation.
+          Enjoy unlimited bug identifications, offline mode, and AI chat.
         </p>
       </div>
     );
@@ -48,10 +49,10 @@ export default function UpgradePage() {
   return (
     <div className="max-w-lg mx-auto px-4 pt-6 pb-24">
       <div className="flex flex-col items-center gap-4 mb-8 ambient-glow">
-        <BugLogo size="md" />
+        <DrBuzz size="md" />
         <h1 className="text-2xl font-bold">Upgrade to Pro</h1>
         <p className="text-sm text-muted-foreground text-center max-w-xs">
-          Unlock the full power of Bug AI with unlimited access.
+          Unlock unlimited identifications and premium features.
         </p>
       </div>
 
@@ -66,9 +67,7 @@ export default function UpgradePage() {
             }`}
           >
             {p === 'monthly' ? 'Monthly' : 'Annual'}
-            {p === 'annual' && (
-              <span className="ml-1 text-[10px] opacity-80">Save 33%</span>
-            )}
+            {p === 'annual' && <span className="ml-1 text-[10px] opacity-80">Save 33%</span>}
           </button>
         ))}
       </div>
