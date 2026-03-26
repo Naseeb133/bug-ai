@@ -6,7 +6,9 @@ import { useEffect } from "react";
 import { getTheme, setTheme } from "@/lib/store";
 import BottomNav from "@/components/BottomNav";
 import Index from "./pages/Index";
-import ImagePage from "./pages/ImagePage";
+import QuizPage from "./pages/QuizPage";
+import AnalyzingPage from "./pages/AnalyzingPage";
+import ResultPage from "./pages/ResultPage";
 import HistoryPage from "./pages/HistoryPage";
 import UpgradePage from "./pages/UpgradePage";
 import SettingsPage from "./pages/SettingsPage";
@@ -27,7 +29,9 @@ const App = () => {
           <div className="min-h-screen bg-background text-foreground">
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/image" element={<ImagePage />} />
+              <Route path="/quiz" element={<QuizPage />} />
+              <Route path="/analyzing" element={<AnalyzingPage />} />
+              <Route path="/result" element={<ResultPage />} />
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/upgrade" element={<UpgradePage />} />
               <Route path="/settings" element={<SettingsPage />} />

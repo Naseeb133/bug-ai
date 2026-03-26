@@ -1,18 +1,21 @@
-import { Home, ImagePlus, Clock, Crown, Settings } from 'lucide-react';
+import { Home, Bug, Clock, Crown, Settings } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
-  { path: '/image', icon: ImagePlus, label: 'Create' },
-  { path: '/history', icon: Clock, label: 'History' },
+  { path: '/history', icon: Clock, label: 'Sightings' },
   { path: '/upgrade', icon: Crown, label: 'Pro' },
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
+const HIDDEN_ROUTES = ['/quiz', '/analyzing', '/result'];
+
 export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  if (HIDDEN_ROUTES.some(r => location.pathname.startsWith(r))) return null;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-t border-border">
@@ -32,13 +35,8 @@ export default function BottomNav() {
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
-              <Icon
-                size={20}
-                className={active ? 'text-primary relative z-10' : 'text-muted-foreground relative z-10'}
-              />
-              <span
-                className={`text-[10px] font-medium relative z-10 ${active ? 'text-primary' : 'text-muted-foreground'}`}
-              >
+              <Icon size={20} className={active ? 'text-primary relative z-10' : 'text-muted-foreground relative z-10'} />
+              <span className={`text-[10px] font-medium relative z-10 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
                 {label}
               </span>
             </button>
