@@ -55,6 +55,8 @@ export default {
         "surface-hover": "hsl(var(--surface-hover))",
         glow: "hsl(var(--glow))",
         warning: "hsl(var(--warning))",
+        glass: "hsl(var(--glass))",
+        "glass-border": "hsl(var(--glass-border))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
