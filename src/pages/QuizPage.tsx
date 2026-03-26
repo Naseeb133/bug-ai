@@ -48,9 +48,14 @@ export default function QuizPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 pt-4 pb-20">
+    <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 pt-4 pb-20">
       {/* Bug image */}
-      <div className="w-full h-48 rounded-2xl overflow-hidden bg-surface mb-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full h-48 rounded-[1.25rem] overflow-hidden glass-card mb-4"
+      >
         {imageUrl ? (
           <img src={imageUrl} alt="Captured bug" className="w-full h-full object-cover" />
         ) : (
@@ -58,15 +63,15 @@ export default function QuizPage() {
             No image captured
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Progress */}
       <div className="flex gap-1.5 mb-6">
         {QUESTIONS.map((_, i) => (
           <div
             key={i}
-            className={`h-1 flex-1 rounded-full transition-colors ${
-              i <= step ? 'bg-primary' : 'bg-muted'
+            className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
+              i <= step ? 'bg-pro-gradient glow-sm' : 'bg-muted'
             }`}
           />
         ))}
@@ -82,18 +87,19 @@ export default function QuizPage() {
           transition={{ duration: 0.25 }}
         >
           <p className="text-xs text-muted-foreground mb-1">Question {step + 1} of {QUESTIONS.length}</p>
-          <h2 className="text-lg font-semibold mb-4">{current.question}</h2>
+          <h2 className="text-xl font-bold mb-5">{current.question}</h2>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2.5">
             {current.options.map((opt) => (
               <motion.button
                 key={opt}
                 whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.01 }}
                 onClick={() => selectAnswer(opt)}
-                className={`w-full p-4 rounded-2xl text-sm font-medium text-left flex items-center justify-between transition-colors ${
+                className={`w-full p-4 rounded-[1.25rem] text-sm font-medium text-left flex items-center justify-between transition-all duration-200 ${
                   answers[current.key] === opt
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-surface hover:bg-surface-hover glow-border'
+                    ? 'btn-gradient text-primary-foreground'
+                    : 'glass-card hover:border-primary/30'
                 }`}
               >
                 {opt}
