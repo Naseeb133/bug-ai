@@ -1,24 +1,37 @@
-import { Moon, Sun, Trash2, RotateCcw, Shield, ExternalLink } from 'lucide-react';
+import { Moon, Sun, Trash2, RotateCcw, Shield, ExternalLink, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { getTheme, setTheme as saveTheme, clearSightings, isPro } from '@/lib/store';
+import { getTheme, setTheme as saveTheme, isPro } from '@/lib/store';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import BugLogo from '@/components/BugLogo';
 import { toast } from 'sonner';
 
 export default function SettingsPage() {
   const [theme, setLocalTheme] = useState<'dark' | 'light'>(getTheme());
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     saveTheme(theme);
   }, [theme]);
 
-  const handleClearHistory = () => {
-    clearSightings();
-    toast.success('Sighting history cleared');
+  const handleClearHistory = async () => {
+    if (!user) return;
+    const { error } = await supabase.from('sightings').delete().eq('user_id', user.id);
+    if (error) {
+      toast.error('Failed to clear history');
+    } else {
+      toast.success('Sighting history cleared');
+    }
   };
 
   const toggleTheme = () => {
     setLocalTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast.success('Signed out');
   };
 
   const items = [
@@ -59,6 +72,14 @@ export default function SettingsPage() {
       title: 'Privacy Policy',
       subtitle: 'Read our privacy terms',
       trailing: <ExternalLink size={14} className="text-muted-foreground" />,
+    },
+    {
+      onClick: handleSignOut,
+      icon: LogOut,
+      iconBg: 'bg-destructive/10',
+      iconColor: 'text-destructive',
+      title: 'Sign Out',
+      subtitle: user?.email || 'Sign out of your account',
     },
   ];
 

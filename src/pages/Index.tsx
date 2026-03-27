@@ -2,14 +2,35 @@ import { useRef } from 'react';
 import { Camera, Upload, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import BugLogo from '@/components/BugLogo';
 import DrBuzz from '@/components/DrBuzz';
-import { getSightings, getDailyUsage, FREE_DAILY_LIMIT, isPro, type Sighting } from '@/lib/store';
+import { getDailyUsage, FREE_DAILY_LIMIT, isPro } from '@/lib/store';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+
+interface RecentSighting {
+  id: string;
+  image_url: string;
+  species: string;
+  created_at: string;
+}
 
 export default function Home() {
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
-  const recent = getSightings().slice(0, 3);
+  const { user } = useAuth();
+  const [recent, setRecent] = useState<RecentSighting[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from('sightings')
+      .select('id, image_url, species, created_at')
+      .order('created_at', { ascending: false })
+      .limit(3)
+      .then(({ data }) => setRecent(data || []));
+  }, [user]);
 
   const handleCapture = () => {
     const input = document.createElement('input');
@@ -42,7 +63,6 @@ export default function Home() {
 
   return (
     <div className="relative z-10 flex flex-col min-h-[calc(100vh-4rem)] max-w-lg mx-auto px-4 pt-6 pb-20">
-      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -57,7 +77,6 @@ export default function Home() {
         )}
       </motion.div>
 
-      {/* Hero */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,7 +90,6 @@ export default function Home() {
         </p>
       </motion.div>
 
-      {/* Camera CTA */}
       <motion.button
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -106,7 +124,6 @@ export default function Home() {
         onChange={handleFile}
       />
 
-      {/* Recent Sightings */}
       {recent.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,23 +141,17 @@ export default function Home() {
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {recent.map((s) => (
-              <SightingCard key={s.id} sighting={s} onClick={() => navigate('/result', { state: { sighting: s } })} />
+              <button key={s.id} className="shrink-0 w-28 text-left group">
+                <div className="w-28 h-28 rounded-[1.25rem] glass-card overflow-hidden mb-1.5 group-hover:glow-sm transition-shadow">
+                  <img src={s.image_url} alt={s.species} className="w-full h-full object-cover" />
+                </div>
+                <p className="text-xs font-medium truncate">{s.species}</p>
+                <p className="text-[10px] text-muted-foreground">{new Date(s.created_at).toLocaleDateString()}</p>
+              </button>
             ))}
           </div>
         </motion.div>
       )}
     </div>
-  );
-}
-
-function SightingCard({ sighting, onClick }: { sighting: Sighting; onClick: () => void }) {
-  return (
-    <button onClick={onClick} className="shrink-0 w-28 text-left group">
-      <div className="w-28 h-28 rounded-[1.25rem] glass-card overflow-hidden mb-1.5 group-hover:glow-sm transition-shadow">
-        <img src={sighting.imageUrl} alt={sighting.species} className="w-full h-full object-cover" />
-      </div>
-      <p className="text-xs font-medium truncate">{sighting.species}</p>
-      <p className="text-[10px] text-muted-foreground">{new Date(sighting.date).toLocaleDateString()}</p>
-    </button>
   );
 }
