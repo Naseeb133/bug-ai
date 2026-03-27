@@ -4,8 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect } from "react";
 import { getTheme, setTheme } from "@/lib/store";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import BottomNav from "@/components/BottomNav";
 import Index from "./pages/Index";
+import AuthPage from "./pages/AuthPage";
 import QuizPage from "./pages/QuizPage";
 import AnalyzingPage from "./pages/AnalyzingPage";
 import ResultPage from "./pages/ResultPage";
@@ -26,19 +29,22 @@ const App = () => {
       <TooltipProvider>
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background text-foreground app-gradient-bg page-ambient">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/quiz" element={<QuizPage />} />
-              <Route path="/analyzing" element={<AnalyzingPage />} />
-              <Route path="/result" element={<ResultPage />} />
-              <Route path="/history" element={<HistoryPage />} />
-              <Route path="/upgrade" element={<UpgradePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <BottomNav />
-          </div>
+          <AuthProvider>
+            <div className="min-h-screen bg-background text-foreground app-gradient-bg page-ambient">
+              <Routes>
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+                <Route path="/quiz" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
+                <Route path="/analyzing" element={<ProtectedRoute><AnalyzingPage /></ProtectedRoute>} />
+                <Route path="/result" element={<ProtectedRoute><ResultPage /></ProtectedRoute>} />
+                <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+                <Route path="/upgrade" element={<ProtectedRoute><UpgradePage /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <BottomNav />
+            </div>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

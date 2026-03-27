@@ -9,7 +9,7 @@ const tabs = [
   { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
-const HIDDEN_ROUTES = ['/quiz', '/analyzing', '/result'];
+const HIDDEN_ROUTES = ['/quiz', '/analyzing', '/result', '/auth'];
 
 export default function BottomNav() {
   const location = useLocation();
