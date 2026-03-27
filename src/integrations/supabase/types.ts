@@ -14,7 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sightings: {
+        Row: {
+          bite_risk: string
+          confidence: number
+          created_at: string
+          ecological_role: string
+          fun_facts: string[]
+          id: string
+          image_url: string
+          quiz_color: string | null
+          quiz_features: string | null
+          quiz_location: string | null
+          quiz_size: string | null
+          removal_tips: string
+          safety: string
+          scientific_name: string
+          species: string
+          user_id: string
+        }
+        Insert: {
+          bite_risk: string
+          confidence: number
+          created_at?: string
+          ecological_role: string
+          fun_facts?: string[]
+          id?: string
+          image_url: string
+          quiz_color?: string | null
+          quiz_features?: string | null
+          quiz_location?: string | null
+          quiz_size?: string | null
+          removal_tips: string
+          safety: string
+          scientific_name: string
+          species: string
+          user_id: string
+        }
+        Update: {
+          bite_risk?: string
+          confidence?: number
+          created_at?: string
+          ecological_role?: string
+          fun_facts?: string[]
+          id?: string
+          image_url?: string
+          quiz_color?: string | null
+          quiz_features?: string | null
+          quiz_location?: string | null
+          quiz_size?: string | null
+          removal_tips?: string
+          safety?: string
+          scientific_name?: string
+          species?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
